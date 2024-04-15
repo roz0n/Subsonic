@@ -9,6 +9,7 @@
 // See LICENSE for license information.
 //
 
+import AVFAudio
 import SwiftUI
 
 extension View {
@@ -23,6 +24,17 @@ extension View {
     ///   - completion: An optional closure that gets called when the sound finishes playing.
     public func play(sound: String, from bundle: Bundle = .main, volume: Double = 1, repeatCount: SubsonicController.RepeatCount = 0, completion: (() -> Void)? = nil) {
         SubsonicController.shared.play(sound: sound, from: bundle, volume: volume, repeatCount: repeatCount, completion: completion)
+    }
+    /// Prepares and returns an  AVAudioPlayer for you to manipulate and play as you see fit. (Option 4)
+    /// - Parameters:
+    ///   - sound: The name of the sound file you want to load.
+    ///   - bundle: The bundle containing the sound file. Defaults to the main bundle.
+    ///   - volume: How loud to play this sound relative to other sounds in your app,
+    ///     specified in the range 0 (no volume) to 1 (maximum volume).
+    ///   - repeatCount: How many times to repeat this sound. Specifying 0 here
+    ///     (the default) will play the sound only once.
+    public func prepare(sound: String, from bundle: Bundle = .main, volume: Double = 1, repeatCount: SubsonicController.RepeatCount = 0) -> AVAudioPlayer? {
+        SubsonicController.shared.prepare(sound: sound, from: bundle)
     }
     
     /// Sets the volume for a specific sound, or all sounds, with an optional fade effect.
