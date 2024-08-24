@@ -38,7 +38,10 @@ public class SubsonicController: NSObject, AVAudioPlayerDelegate {
     }
 
     /// This class is *not* designed to be instantiated; please use the `shared` singleton.
-    override private init() { }
+    override private init() {
+      super.init()
+      configureAudioSession()
+    }
 
     /// The main access point to this class. It's a singleton because sounds must
     /// be loaded and stored in order to continue playing after calling play().
@@ -69,7 +72,7 @@ public class SubsonicController: NSObject, AVAudioPlayerDelegate {
             if let completion = completion {
                 self.completionHandlers[player] = completion
             }
-
+          
             player.play()
 
             DispatchQueue.main.async {
@@ -143,5 +146,16 @@ public class SubsonicController: NSObject, AVAudioPlayerDelegate {
         for playingSound in playingSounds {
             playingSound.stop()
         }
+    }
+  
+    private func configureAudioSession() {
+      let audioSession = AVAudioSession.sharedInstance()
+      do {
+        try audioSession.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
+        try audioSession.setActive(true)
+        print("Successfully set audio session configuration")
+      } catch {
+        print("Failed to set the audio session configuration")
+      }
     }
 }
