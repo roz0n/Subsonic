@@ -73,8 +73,10 @@ public class SubsonicController: NSObject, AVAudioPlayerDelegate {
                 self.completionHandlers[player] = completion
             }
           
-            player.play()
-
+            DispatchQueue.global(qos: .userInitiated).async {
+                player.play()
+            }
+            
             DispatchQueue.main.async {
                 self.playingSounds.insert(player)
             }
